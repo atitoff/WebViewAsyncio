@@ -17,3 +17,10 @@ class TestApp:
     async def _hide_slave_window(self):
         self.wv_app.window_slave.hide()
 ```
+Does not return a value, but can be queried with a function `window.evaluate_js` from Python
+```python
+async def _hide_slave_window(self):
+    d = window.evaluate_js('get_data()')
+    # .....
+    self.wv_app.window_slave.hide()
+```
