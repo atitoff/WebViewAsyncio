@@ -22,6 +22,18 @@ class WVAsync:
     def on_closing(self):
         self.jq.sync_q.put_nowait({'on_closing': True})
 
+    async def _on_closing(self, d):
+        print('closing')
+        ret = await JsAsync.call(
+            """new BsDialogs().ok_cancel('', 'Вы действительно хотите выйти?')""",
+            self.window)
+        if ret == 'ok':
+            self.window.minimize()
+            self.window_slave.minimize()
+            self.jq.sync_q.put_nowait({'closing': True})
+            self.window.hide()
+        else:
+            return False
 
     def _slave_on_closing(self):
         self.window_slave.hide()
@@ -63,26 +75,6 @@ class JsApi:
         print(rpc_name, d)
         self.jq.sync_q.put_nowait({rpc_name: d})
 
-
-@dataclass
-class Settings:
-    path_cwd: str = ''
-    path_web: str = ''
-    path_add: str = ''
-
-    def __init__(self):
-        self._web_path()
-
-    def _web_path(self):
-        # determine if application is a script file or frozen exe
-        if getattr(sys, 'frozen', False):
-            self.path_cwd = os.path.dirname(sys.executable)
-            self.path_web = os.path.join(self.path_cwd, '_internal', 'web')
-            self.path_add = os.path.join(self.path_cwd, '_internal', '_add')
-        elif __file__:
-            self.path_cwd = os.getcwd()
-            self.path_web = os.path.join(self.path_cwd, 'web')
-            self.path_add = os.path.join(self.path_cwd, 'add')
 
 
 class EventTs(asyncio.Event):

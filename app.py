@@ -22,7 +22,8 @@ window = webview.create_window(
     'Test', 'web/index.html', frameless=True, easy_drag=False, js_api=js_api,
     width=800, height=600
 )
-window_slave = webview.create_window('Slave', hidden=True, url='web/slave.html', js_api=js_api, frameless=True)
+window_slave = webview.create_window('Slave', hidden=True, url='web/slave.html', js_api=js_api, frameless=True,
+                                     easy_drag=True)
 
 window.events.loaded += app.on_loaded
 
