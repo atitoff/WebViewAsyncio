@@ -3,7 +3,8 @@
 ### Async call JS -> Python
 
 ```js
-pywebview.api.call('show_slave_window')
+pywebview.api.call('show1')
+pywebview.api.call('show2', d)
 ```
 
 app_lib.py
@@ -12,14 +13,18 @@ class TestApp:
     def __init__(self, wv_app: WVAsync):
         # .....
         # registry function
-        self.wv_app.registry('show_slave_window', self._show_slave_window)
+        self.wv_app.registry('show1', self._show1)
+        self.wv_app.registry('show1', self._show1)
     
-    async def _hide_slave_window(self):
-        self.wv_app.window_slave.hide()
+    async def _show1(self):
+        # .....
+
+    async def _hide_slave_window(self, d):
+        print(d)
 ```
 Does not return a value, but can be queried with a function `window.evaluate_js` from Python
 ```python
-async def _hide_slave_window(self):
+async def _show1(self):
     d = window.evaluate_js('get_data()')
     # .....
     self.wv_app.window_slave.hide()
