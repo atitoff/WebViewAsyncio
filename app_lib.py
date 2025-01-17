@@ -13,7 +13,8 @@ class TestApp:
     async def _on_closing(self, d):
         print('closing')
         ret = await JsAsync.call(
-            """new BsDialogs().ok_cancel('', 'Are you sure you want to close the application?')""", self.wv_app.window
+            """new BsDialogs().ok_cancel('', 'Are you sure you want to close the application?')""",
+            self.wv_app.window
         )
         if ret == 'ok':
             self.wv_app.window.minimize()

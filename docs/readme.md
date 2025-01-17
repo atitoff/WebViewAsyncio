@@ -14,7 +14,7 @@ class TestApp:
         # .....
         # registry function
         self.wv_app.registry('show1', self._show1)
-        self.wv_app.registry('show1', self._show1)
+        self.wv_app.registry('show2', self._show2)
     
     async def _show1(self):
         # .....
@@ -27,5 +27,13 @@ Does not return a value, but can be queried with a function `window.evaluate_js`
 async def _show1(self):
     d = window.evaluate_js('get_data()')
     # .....
-    self.wv_app.window_slave.hide()
+```
+
+### Async call Python -> JS
+
+```python
+ret = await JsAsync.call(
+    """new BsDialogs().ok_cancel('', 'Are you sure you want to close the application?')""",
+    self.wv_app.window
+)
 ```
