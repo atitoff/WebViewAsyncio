@@ -2,6 +2,7 @@
 
 ### Async call JS -> Python
 
+html java script
 ```js
 pywebview.api.call('show1')
 pywebview.api.call('show2', d)
